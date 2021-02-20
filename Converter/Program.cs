@@ -118,17 +118,17 @@ namespace Converter
             }
 
             // Insert an empty color index
-            if (!colorIndexDict.ContainsKey(o.EmptyNodeName))
+            if (!colorIndexDict.ContainsKey("air"))
             {
-                colorIndices.Add(new ColorDefinition(o.EmptyNodeName, 0, 0, 0, 0));
-                colorIndexDict[o.EmptyNodeName] = colorIndices.Count - 1;
+                colorIndices.Add(new ColorDefinition("air", 0, 0, 0, 0));
+                colorIndexDict["air"] = colorIndices.Count - 1;
             }
             // Switch color index 0 with empty
-            int replaceLoc = colorIndexDict[o.EmptyNodeName];
+            int replaceLoc = colorIndexDict["air"];
             ColorDefinition emptyColor = colorIndices[replaceLoc];
             ColorDefinition replaceColor = colorIndices[0];
             // Switch dict
-            colorIndexDict[o.EmptyNodeName] = 0;
+            colorIndexDict["air"] = 0;
             colorIndexDict[replaceColor.Name] = replaceLoc;
             // Switch color
             colorIndices[0] = emptyColor;

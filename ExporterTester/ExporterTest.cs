@@ -10,11 +10,21 @@ namespace ExporterTester
     {
         static void Main(string[] args)
         {
+            // Initiate output paths
+            string folder = Path.Combine(Path.GetTempPath(), Path.GetRandomFileName());
+            string logFile = Path.Combine(folder, "log.txt");
+            Directory.CreateDirectory(folder);
+            // Std output redirection
+            TextWriterTraceListener tr1 = new TextWriterTraceListener(Console.Out);
+            Trace.Listeners.Add(tr1);
+            TextWriterTraceListener tr2 = new TextWriterTraceListener(File.CreateText(logFile));
+            Trace.Listeners.Add(tr2);
+
             // Generate regions of data
             int X = 32;
             int Y = 64;
             int Z = 128;
-            Console.WriteLine("Generate regions of data");
+            Trace.WriteLine("Generate regions of data");
             Region region = new Region(X, Y, Z);
             Random rand = new Random();
             int i = 0;
@@ -40,14 +50,13 @@ namespace ExporterTester
             }
 
             // Initiate outputs
-            string folder = Path.Combine(Path.GetTempPath(), Path.GetRandomFileName());
             string source = Path.Combine(folder, "source");
             string output = Path.Combine(folder, "output");
             Directory.CreateDirectory(source);
             Directory.CreateDirectory(output);
 
             // Perform conversion
-            Console.WriteLine("Perform conversion...");
+            Trace.WriteLine("Perform conversion...");
             string file = Path.Combine(output, "output.xraw");
             Dictionary<string, ColorDefinition> colors = new Dictionary<string, ColorDefinition>() 
             { 
@@ -64,13 +73,15 @@ namespace ExporterTester
             new XRAWExporter().Convert(options, new DataGrid(region));
 
             // Done
-            Console.WriteLine($"Output available at: {folder}");
+            Trace.WriteLine($"Output available at: {folder}");
             Process.Start(new ProcessStartInfo()
             {
                 FileName = folder,
                 UseShellExecute = true,
                 Verb = "open"
             });
+
+            Trace.Flush();
         }
     }
 }

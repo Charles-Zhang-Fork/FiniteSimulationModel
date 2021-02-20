@@ -7,6 +7,7 @@ namespace Exporter
     /// <summary>
     /// Provides definition for data
     /// </summary>
+    [Serializable]
     public class DataGrid
     {
         /// <summary>
@@ -20,7 +21,7 @@ namespace Exporter
         }
     }
 
-
+    [Serializable]
     public class Region
     {
         public int SizeX { get; set; }
@@ -48,6 +49,7 @@ namespace Exporter
             Nodes = nodes ?? throw new ArgumentNullException(nameof(nodes));
         }
     }
+    [Serializable]
     public class Node
     {
         public string Name { get; set; }
@@ -58,6 +60,7 @@ namespace Exporter
         }
     }
 
+    [Serializable]
     public class ColorDefinition
     {
         public string Name { get; set; }

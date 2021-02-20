@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -34,7 +35,7 @@ namespace Exporter
 
             // Colors preprocessing
             if(o.Report)
-                Console.WriteLine("Preprocessing referenced colors...");
+                Trace.WriteLine("Preprocessing referenced colors...");
             HashSet<string> uniqueNodes = data.Region.Nodes.Select(n => n.Name).Distinct().ToHashSet();
             Dictionary<string, ColorDefinition> referencedColors = o.ColorDefinitions.Where(c => uniqueNodes.Contains(c.Key)).ToDictionary(p => p.Key, p => p.Value);
             List<ColorDefinition> colorIndices = referencedColors.Values.ToList();
@@ -50,24 +51,24 @@ namespace Exporter
                 var missingColors = uniqueNodes.Where(n => !o.ColorDefinitions.ContainsKey(n)).ToList();
                 if (referencedColors.Count == 0)
                 {
-                    Console.WriteLine("[Warning] Some of the node types are not recognized in color file, please fix the following:");
+                    Trace.WriteLine("[Warning] Some of the node types are not recognized in color file, please fix the following:");
                     foreach (string item in uniqueNodes)
                         if (item != o.EmptyNodeName && item != "ignore")
-                            Console.WriteLine($"\t{item}");
+                            Trace.WriteLine($"\t{item}");
                 }
                 else if (missingColors.Count != 0)
                 {
-                    Console.WriteLine($"[Warning] {missingColors.Count} colors are not fonud in color presets, please fix the following:");
+                    Trace.WriteLine($"[Warning] {missingColors.Count} colors are not fonud in color presets, please fix the following:");
                     foreach (var name in missingColors)
                     {
                         if (name == o.EmptyNodeName)
-                            Console.WriteLine($"  Node type \"{name}\" is not defined in color file - but it's also not needed; Will treat as empty (color index 0).");
+                            Trace.WriteLine($"  Node type \"{name}\" is not defined in color file - but it's also not needed; Will treat as empty (color index 0).");
                         else if (name == "ignore")
-                            Console.WriteLine("  Exported region contains node type \"ignore\"; Will treat as empty (color index 0).");
+                            Trace.WriteLine("  Exported region contains node type \"ignore\"; Will treat as empty (color index 0).");
                         else if (colorIndices.Count > 1)
-                            Console.WriteLine($"  Node type \"{name}\" is not defined in color file; Will use `{colorIndices[1].Name}` instead (color index 1).");
+                            Trace.WriteLine($"  Node type \"{name}\" is not defined in color file; Will use `{colorIndices[1].Name}` instead (color index 1).");
                         else
-                            Console.WriteLine($"  Node type \"{name}\" is not defined in color file; Will use color index value 1 instead.");
+                            Trace.WriteLine($"  Node type \"{name}\" is not defined in color file; Will use color index value 1 instead.");
                     }
                 }
             }
@@ -91,7 +92,7 @@ namespace Exporter
 
             // Perform conversion
             if(o.Report)
-                Console.WriteLine("Convert source to XRAW format...");
+                Trace.WriteLine("Convert source to XRAW format...");
             using (BinaryWriter writer = new BinaryWriter(File.Open(o.OutputPath, FileMode.Create)))
             {
                 // Header
@@ -147,7 +148,7 @@ namespace Exporter
                 writer.Close();
             }
             if(o.Report)
-                Console.WriteLine("Conversion finished.");
+                Trace.WriteLine("Conversion finished.");
         }
     }
 }
