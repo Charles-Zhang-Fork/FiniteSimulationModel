@@ -90,7 +90,8 @@ namespace Exporter
             colorIndices[replaceLoc] = replaceColor;
 
             // Perform conversion
-            Console.WriteLine("Convert source to XRAW format...");
+            if(o.Report)
+                Console.WriteLine("Convert source to XRAW format...");
             using (BinaryWriter writer = new BinaryWriter(File.Open(o.OutputPath, FileMode.Create)))
             {
                 // Header
