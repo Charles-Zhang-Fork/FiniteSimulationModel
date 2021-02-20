@@ -15,7 +15,7 @@ Notice depends on field value for "**bits per index**" (and maybe **num of palet
 
 The voxel index array is in the following order: 
 
-```
+```c#
 int i = 0;
 for (int z = 0; z < Z; z++)
 {
