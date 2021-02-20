@@ -117,6 +117,23 @@ namespace Converter
                 }
             }
 
+            // Insert an empty color index
+            if (!colorIndexDict.ContainsKey(o.EmptyNodeName))
+            {
+                colorIndices.Add(new ColorDefinition(o.EmptyNodeName, 0, 0, 0, 0));
+                colorIndexDict[o.EmptyNodeName] = colorIndices.Count - 1;
+            }
+            // Switch color index 0 with empty
+            int replaceLoc = colorIndexDict[o.EmptyNodeName];
+            ColorDefinition emptyColor = colorIndices[replaceLoc];
+            ColorDefinition replaceColor = colorIndices[0];
+            // Switch dict
+            colorIndexDict[o.EmptyNodeName] = 0;
+            colorIndexDict[replaceColor.Name] = replaceLoc;
+            // Switch color
+            colorIndices[0] = emptyColor;
+            colorIndices[replaceLoc] = replaceColor;
+
             // Perform conversion
             Console.WriteLine("Convert source to XRAW format...");
             using (BinaryWriter writer = new BinaryWriter(File.Open(targetPath, FileMode.Create)))
