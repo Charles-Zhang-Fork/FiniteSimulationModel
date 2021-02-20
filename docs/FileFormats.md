@@ -1,7 +1,7 @@
 # `.xraw`
 
 XRAW format is simply: a header + a 3d index array + a palette array. 
-For 16-bit xraw format, just set num bits of index to 16, use 32768 palette, and ~0 for empty voxels (the meaning of which changes depends on color palette size - for 256 it's 0, for 65536 it's anything bigger than 65536/2, see examples below).
+For 16-bit xraw format, just set num bits of index to 16, use 32768 palette, and ~0 for empty voxels (the meaning of which changes depends on color palette size - for 256 it's 0, for 65536 it's anything bigger than 65536/2, see examples below) (Notice also the first color index, i.e. the 0th color is also used as empty).
 
 [It seemed](https://twitter.com/ephtracy/status/687051581859168256) the editor can support either import/export of 8-bit version for `.xraw` format ("*Type `o xraw` in MagicaVoxel command line to export volume data as .xraw file*" - [here](https://github.com/hiroakioishi/VoxelizeMagicaVoxelXRawData)); 16-bit version is for the standalone viewer.
 
