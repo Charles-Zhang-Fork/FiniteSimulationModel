@@ -96,7 +96,7 @@ namespace Converter
             var missingColors = uniqueNodes.Where(n => !presetColors.ContainsKey(n)).ToList();
             if(referencedColors.Count == 0)
             {
-                Console.WriteLine("[Warning] None of the node types are recognized in color file, please fix the following:");
+                Console.WriteLine("[Warning] Some of the node types are not recognized in color file, please fix the following:");
                 foreach (string item in uniqueNodes)
                     if(item != "air" && item != "ignore")
                         Console.WriteLine($"\t{item}");
